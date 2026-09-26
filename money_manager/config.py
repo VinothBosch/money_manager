@@ -18,9 +18,9 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
 OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4")
 
 # File paths
-INPUT_STATEMENT_FILE = "AccountStatement_edited.xlsx"
-REFERENCE_FILE = "01-01-25_31-12-25.xls"
-OUTPUT_FILE = "processed_transactions.tsv"  # Using .xlsx for better compatibility
+INPUT_STATEMENT_FILE = "data/input/AccountStatement_edited.xlsx"
+REFERENCE_FILE = "data/input/01-01-25_31-12-25.xls"
+OUTPUT_FILE = "data/output/processed_transactions.tsv"  # Using .xlsx for better compatibility
 
 # Default account name
 DEFAULT_ACCOUNT = "SBI Account"

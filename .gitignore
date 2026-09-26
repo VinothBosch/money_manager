@@ -97,8 +97,10 @@ config.local.py
 *.PDF
 *.xls
 *.xlsx
-bank_statements/
-statements/
+data/input/*
+!data/input/.gitkeep
+data/output/*
+!data/output/.gitkeep
 
 # Processed data files (may contain personal info)
 *.tsv
@@ -106,4 +108,5 @@ statements/
 
 # Logs
 *.log
-logs/
+logs/*
+!logs/.gitkeep

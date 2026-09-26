@@ -50,11 +50,11 @@ def check_files():
     """Check if all required files exist"""
     print("\nChecking required files...")
     required_files = [
-        'main.py',
-        'config.py',
-        'data_extractor.py',
-        'categorizer.py',
-        'excel_exporter.py',
+        'scripts/main.py',
+        'money_manager/config.py',
+        'money_manager/data_extractor.py',
+        'money_manager/categorizer.py',
+        'money_manager/excel_exporter.py',
         'requirements.txt',
         '.env.example'
     ]
@@ -73,8 +73,8 @@ def check_input_files():
     """Check if input data files exist"""
     print("\nChecking input data files...")
     input_files = [
-        'AccountStatement_edited.xlsx',
-        '01-01-25_31-12-25.xls'
+        'data/input/AccountStatement_edited.xlsx',
+        'data/input/01-01-25_31-12-25.xls'
     ]
     
     all_exist = True
@@ -173,13 +173,13 @@ def main():
     
     if all_passed:
         print("\n✓ All checks passed! You're ready to run:")
-        print("  python test_components.py  (test individual components)")
-        print("  python main.py             (run full pipeline)")
+        print("  python tests/test_components.py  (test individual components)")
+        print("  python scripts/main.py           (run full pipeline)")
     else:
         print("\n✗ Some checks failed. Please fix the issues above.")
         print("\nCommon fixes:")
         print("  1. Install dependencies: pip install -r requirements.txt")
-        print("  2. Set up API key: python setup.py")
+        print("  2. Set up API key: python scripts/setup.py")
         print("  3. Ensure input files are in the correct location")
     
     print()

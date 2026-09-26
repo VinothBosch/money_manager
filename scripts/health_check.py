@@ -33,20 +33,20 @@ def quick_check():
             issues.append(f"Missing: {dep}")
     
     # Check files
-    files = ['main.py', 'config.py', 'data_extractor.py', 'categorizer.py', 
-             'excel_exporter.py', '.env']
+    files = ['scripts/main.py', 'money_manager/config.py', 'money_manager/data_extractor.py',
+             'money_manager/categorizer.py', 'money_manager/excel_exporter.py', '.env']
     for file in files:
         if Path(file).exists():
             print(f"✓ {file}")
         else:
             print(f"✗ {file}")
             if file == '.env':
-                issues.append("Run: python setup.py")
+                issues.append("Run: python scripts/setup.py")
             else:
                 issues.append(f"Missing: {file}")
     
     # Check input files
-    inputs = ['AccountStatement_edited.xlsx', '01-01-25_31-12-25.xls']
+    inputs = ['data/input/AccountStatement_edited.xlsx', 'data/input/01-01-25_31-12-25.xls']
     for inp in inputs:
         if Path(inp).exists():
             print(f"✓ {inp}")
@@ -64,7 +64,7 @@ def quick_check():
         return False
     else:
         print("✅ All good! Ready to run:")
-        print("   python main.py")
+        print("   python scripts/main.py")
         return True
 
 if __name__ == "__main__":

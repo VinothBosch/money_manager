@@ -74,8 +74,9 @@ OPENAI_MODEL=
     print("\n[OK] .env file created successfully!")
     
     # Update config.py
+    config_path = "money_manager/config.py"
     try:
-        with open("config.py", "r") as f:
+        with open(config_path, "r") as f:
             config_content = f.read()
         
         # Update USE_AZURE_OPENAI setting
@@ -87,20 +88,20 @@ OPENAI_MODEL=
                 config_content
             )
             
-            with open("config.py", "w") as f:
+            with open(config_path, "w") as f:
                 f.write(config_content)
             
-            print("[OK] config.py updated!")
+            print(f"[OK] {config_path} updated!")
     except Exception as e:
-        print(f"[WARNING] Could not update config.py: {e}")
+        print(f"[WARNING] Could not update {config_path}: {e}")
         print(f"Please manually set: USE_AZURE_OPENAI = {choice == '2'}")
     
     print("\n" + "="*60)
     print("Setup Complete!")
     print("="*60)
     print("\nNext steps:")
-    print("1. Run: python test_components.py")
-    print("2. Run: python main.py")
+    print("1. Run: python tests/test_components.py")
+    print("2. Run: python scripts/main.py")
     print("\n")
 
 if __name__ == "__main__":

@@ -20,22 +20,22 @@ OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4")
 # Bank statement configurations
 BANK_ACCOUNTS = {
     'SBI': {
-        'statement_file': 'AccountStatement_edited.xlsx',
+        'statement_file': 'data/input/AccountStatement_edited.xlsx',
         'account_name': 'SBI Account',
         'extractor_type': 'SBI'
     },
     'HDFC': {
-        'statement_file': 'HDFC_account.xls',
+        'statement_file': 'data/input/HDFC_account.xls',
         'account_name': 'HDFC Savings Account',
         'extractor_type': 'HDFC'
     }
 }
 
 # Reference file for categorization
-REFERENCE_FILE = "01-01-25_31-12-25.xls"
+REFERENCE_FILE = "data/input/01-01-25_31-12-25.xls"
 
 # Output file
-OUTPUT_FILE = "processed_transactions_combined.tsv"
+OUTPUT_FILE = "data/output/processed_transactions_combined.tsv"
 
 # Date format for output
 OUTPUT_DATE_FORMAT = "%d/%m/%Y"

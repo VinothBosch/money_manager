@@ -91,12 +91,14 @@ Then update `config.py` to set `USE_AZURE_OPENAI = True` if using Azure.
 ### 4. Run the Processor
 
 ```bash
-python main.py
+python scripts/main.py
 ```
 
 ## Input Files
 
-### 1. `AccountStatement_edited.xlsx`
+Place input files under `data/input/`.
+
+### 1. `data/input/AccountStatement_edited.xlsx`
 Your bank statement with columns:
 - Date
 - Details
@@ -105,7 +107,7 @@ Your bank statement with columns:
 - Credit
 - Balance
 
-### 2. `01-01-25_31-12-25.xls`
+### 2. `data/input/01-01-25_31-12-25.xls`
 Reference file containing:
 - Historical transactions
 - Valid categories and subcategories
@@ -133,28 +135,41 @@ Date – Account – Category – Subcategory – Note – Amount – Income/Exp
 
 ```
 Money_manager/
-├── main.py                          # Main orchestrator
-├── data_extractor.py                # Extract & clean transactions
-├── categorizer.py                   # AI categorization engine
-├── excel_exporter.py                # Export to Excel
-├── config.py                        # Configuration
+├── money_manager/                   # Core package
+│   ├── __init__.py
+│   ├── config.py                    # Configuration (single bank)
+│   ├── config_multi_bank.py         # Configuration (multi bank)
+│   ├── data_extractor.py            # Extract & clean SBI transactions
+│   ├── hdfc_extractor.py            # Extract & clean HDFC transactions
+│   ├── categorizer.py               # AI categorization engine
+│   └── excel_exporter.py            # Export to Excel/TSV
+├── scripts/                         # Entry-point scripts
+│   ├── main.py                      # Single-bank orchestrator
+│   ├── process_multi_bank.py        # Multi-bank orchestrator
+│   ├── setup.py                     # Interactive API key setup
+│   ├── validate_setup.py            # Pre-flight validation
+│   └── health_check.py              # Quick health check
+├── tests/
+│   └── test_components.py           # Component smoke tests
+├── data/
+│   ├── input/                       # Bank statements & reference files (gitignored)
+│   └── output/                      # Generated output files (gitignored)
+├── logs/                            # Log files (gitignored)
 ├── requirements.txt                 # Python dependencies
-├── .env                            # API keys (create from .env.example)
-├── AccountStatement_edited.xlsx    # Input: Bank statement
-├── 01-01-25_31-12-25.xls          # Input: Reference data
-└── processed_transactions.xls      # Output: Categorized transactions
+├── .env                             # API keys (create from .env.example)
+└── .env.example                     # Template for API keys
 ```
 
 ## How It Works
 
-### 1. Data Extraction (`data_extractor.py`)
+### 1. Data Extraction (`money_manager/data_extractor.py`, `money_manager/hdfc_extractor.py`)
 - Reads bank statement Excel file
 - Cleans transaction details
 - Handles truncated text (e.g., "frui" → "fruit")
 - Extracts amounts, dates, and descriptions
 - Loads reference categories from historical data
 
-### 2. AI Categorization (`categorizer.py`)
+### 2. AI Categorization (`money_manager/categorizer.py`)
 - Uses **Semantic Kernel** framework
 - Sends transactions to GPT-4 with context:
   - Available categories/subcategories
@@ -167,7 +182,7 @@ Money_manager/
   - Account name
   - Descriptive note
 
-### 3. Excel Export (`excel_exporter.py`)
+### 3. Excel Export (`money_manager/excel_exporter.py`)
 - Formats dates to MM/DD/YYYY
 - Validates mandatory fields
 - Generates compliant .xls file
@@ -198,7 +213,7 @@ Date          Account      Category    Subcategory   Note        Amount  Income/
 
 All operations are logged to:
 - Console (real-time progress)
-- `transaction_processor.log` (detailed logs)
+- `logs/transaction_processor.log` (detailed logs)
 
 ## Troubleshooting
 
@@ -221,13 +236,13 @@ pip install -r requirements.txt
 ## Customization
 
 ### Add New Categories
-Edit `01-01-25_31-12-25.xls` to include new categories, then re-run.
+Edit `data/input/01-01-25_31-12-25.xls` to include new categories, then re-run.
 
 ### Change Output Format
-Modify `excel_exporter.py` column order or date format.
+Modify `money_manager/excel_exporter.py` column order or date format.
 
 ### Adjust AI Behavior
-Edit the prompt in `categorizer.py` → `_build_categorization_prompt()`
+Edit the prompt in `money_manager/categorizer.py` → `_build_categorization_prompt()`
 
 ## Summary Report Example
 

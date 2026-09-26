@@ -5,20 +5,25 @@ Processes transactions from multiple bank accounts (SBI + HDFC)
 
 import asyncio
 import logging
+import sys
 from datetime import datetime
+from pathlib import Path
 
-from data_extractor import DataExtractor
-from hdfc_extractor import HDFCExtractor
-from categorizer import TransactionCategorizer
-from excel_exporter import ExcelExporter
-import config_multi_bank as config
+# Allow running this script directly from the scripts/ folder
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+from money_manager.data_extractor import DataExtractor
+from money_manager.hdfc_extractor import HDFCExtractor
+from money_manager.categorizer import TransactionCategorizer
+from money_manager.excel_exporter import ExcelExporter
+from money_manager import config_multi_bank as config
 
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler('multi_bank_processor.log'),
+        logging.FileHandler('logs/multi_bank_processor.log'),
         logging.StreamHandler()
     ]
 )

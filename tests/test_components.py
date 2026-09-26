@@ -3,8 +3,14 @@ Quick Test Script
 Tests individual components before running the full pipeline
 """
 
+import sys
+from pathlib import Path
+
+# Allow running this script directly from the tests/ folder
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
 import pandas as pd
-from data_extractor import DataExtractor
+from money_manager.data_extractor import DataExtractor
 import logging
 
 logging.basicConfig(level=logging.INFO)
@@ -17,8 +23,8 @@ def test_data_extraction():
     print("="*60)
     
     extractor = DataExtractor(
-        statement_file="AccountStatement_edited.xlsx",
-        reference_file="01-01-25_31-12-25.xls"
+        statement_file="data/input/AccountStatement_edited.xlsx",
+        reference_file="data/input/01-01-25_31-12-25.xls"
     )
     
     # Load reference data
@@ -68,13 +74,13 @@ def test_excel_structure():
     
     # Check input statement
     print("\n1. AccountStatement_edited.xlsx:")
-    df_statement = pd.read_excel("AccountStatement_edited.xlsx", header=1)
+    df_statement = pd.read_excel("data/input/AccountStatement_edited.xlsx", header=1)
     print(f"   Shape: {df_statement.shape}")
     print(f"   Columns: {df_statement.columns.tolist()}")
     
     # Check reference file
     print("\n2. 01-01-25_31-12-25.xls:")
-    df_ref = pd.read_excel("01-01-25_31-12-25.xls")
+    df_ref = pd.read_excel("data/input/01-01-25_31-12-25.xls")
     print(f"   Shape: {df_ref.shape}")
     print(f"   Columns: {df_ref.columns.tolist()}")
     print(f"   Transaction types: {df_ref['Income/Expense'].unique()}")

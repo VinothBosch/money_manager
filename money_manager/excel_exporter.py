@@ -5,6 +5,7 @@ Generates compliant .xls files with proper formatting and validation
 
 import pandas as pd
 from datetime import datetime
+from pathlib import Path
 from typing import List, Dict, Any
 import logging
 
@@ -17,6 +18,7 @@ class ExcelExporter:
     def __init__(self, output_file: str, date_format: str = "%m/%d/%Y"):
         self.output_file = output_file
         self.date_format = date_format
+        Path(output_file).parent.mkdir(parents=True, exist_ok=True)
         
     def export_transactions(self, transactions: List[Dict[str, Any]]) -> bool:
         """

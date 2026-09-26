@@ -5,19 +5,24 @@ Orchestrates the complete transaction processing pipeline
 
 import asyncio
 import logging
+import sys
 from datetime import datetime
+from pathlib import Path
 
-from data_extractor import DataExtractor
-from categorizer import TransactionCategorizer
-from excel_exporter import ExcelExporter
-import config
+# Allow running this script directly from the scripts/ folder
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+from money_manager.data_extractor import DataExtractor
+from money_manager.categorizer import TransactionCategorizer
+from money_manager.excel_exporter import ExcelExporter
+from money_manager import config
 
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler('transaction_processor.log'),
+        logging.FileHandler('logs/transaction_processor.log'),
         logging.StreamHandler()
     ]
 )
