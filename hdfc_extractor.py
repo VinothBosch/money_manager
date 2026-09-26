@@ -78,7 +78,7 @@ class HDFCExtractor:
         try:
             # Handle dd/mm/yy format
             date_obj = datetime.strptime(date_str, '%d/%m/%y')
-        except:
+        except (ValueError, TypeError):
             logger.warning(f"Could not parse date: {date_str}")
             return None
         

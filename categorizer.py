@@ -57,19 +57,11 @@ class TransactionCategorizer:
         # Build the categorization prompt
         prompt = self._build_categorization_prompt(transaction)
         
-        # Create semantic function
-        categorization_function = self.kernel.add_function(
-            plugin_name="TransactionPlugin",
-            function_name="categorize",
-            prompt=prompt,
-            description="Categorizes a bank transaction"
-        )
-        
         last_error = None
         for attempt in range(max_retries):
             try:
-                # Execute the function
-                result = await self.kernel.invoke(categorization_function)
+                # Invoke the prompt directly without permanently registering a plugin function
+                result = await self.kernel.invoke_prompt(prompt=prompt)
                 result_text = str(result)
                 
                 # Parse the JSON response
@@ -203,7 +195,7 @@ JSON Response:"""
     def _get_default_categorization(self, transaction: Dict[str, Any]) -> Dict[str, Any]:
         """Return default categorization when AI fails"""
         default_cat = {
-            'category': 'Missilaneous',
+            'category': 'Miscellaneous',
             'subcategory': '',
             'transaction_type': transaction['transaction_type'],
             'account': transaction.get('source_account', 'SBI Account'),

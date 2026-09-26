@@ -40,14 +40,14 @@ class BankStatementProcessor:
             logger.info("="*60)
             
             # Step 1: Initialize Data Extractor
-            logger.info("\n[Step 1/5] Initializing Data Extractor...")
+            logger.info("\n[Step 1/6] Initializing Data Extractor...")
             self.extractor = DataExtractor(
                 statement_file=config.INPUT_STATEMENT_FILE,
                 reference_file=config.REFERENCE_FILE
             )
             
             # Step 2: Load Reference Data
-            logger.info("\n[Step 2/5] Loading Reference Data...")
+            logger.info("\n[Step 2/6] Loading Reference Data...")
             self.extractor.load_reference_data()
             category_mappings = self.extractor.get_category_mappings()
             transaction_examples = self.extractor.get_transaction_examples()
@@ -56,7 +56,7 @@ class BankStatementProcessor:
             logger.info(f"Categories: {', '.join(list(category_mappings.keys())[:10])}...")
             
             # Step 3: Extract Transactions
-            logger.info("\n[Step 3/5] Extracting Transactions from Statement...")
+            logger.info("\n[Step 3/6] Extracting Transactions from Statement...")
             transactions = self.extractor.extract_transactions()
             
             if not transactions:
@@ -66,7 +66,7 @@ class BankStatementProcessor:
             logger.info(f"Extracted {len(transactions)} transactions")
             
             # Step 4: Initialize AI Categorizer
-            logger.info("\n[Step 4/5] Initializing AI Categorizer...")
+            logger.info("\n[Step 4/6] Initializing AI Categorizer...")
             
             # Check API key
             api_key = config.AZURE_OPENAI_API_KEY if config.USE_AZURE_OPENAI else config.OPENAI_API_KEY
@@ -87,11 +87,11 @@ class BankStatementProcessor:
             self.categorizer.set_reference_data(category_mappings, transaction_examples)
             
             # Categorize transactions
-            logger.info("\n[Step 5/5] Categorizing Transactions with AI...")
+            logger.info("\n[Step 5/6] Categorizing Transactions with AI...")
             categorized_transactions = await self.categorizer.categorize_batch(transactions)
             
             # Step 6: Export to Excel
-            logger.info("\n[Step 6/5] Exporting to Excel...")
+            logger.info("\n[Step 6/6] Exporting to Excel...")
             self.exporter = ExcelExporter(
                 output_file=config.OUTPUT_FILE,
                 date_format=config.OUTPUT_DATE_FORMAT

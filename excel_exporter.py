@@ -95,7 +95,7 @@ class ExcelExporter:
             # Parse if string
             try:
                 date_obj = datetime.strptime(date_obj, '%d/%m/%Y')
-            except:
+            except ValueError:
                 date_obj = datetime.now()
         
         date_str = date_obj.strftime(self.date_format)
@@ -109,7 +109,7 @@ class ExcelExporter:
         row = {
             'Date': date_str,
             'Account': txn.get('account', 'SBI Account'),
-            'Category': txn.get('category', 'Missilaneous'),
+            'Category': txn.get('category', 'Miscellaneous'),
             'Subcategory': txn.get('subcategory', ''),
             'Note': txn.get('note', '')[:200],  # Limit note length
             'Amount': abs(float(txn['amount'])),  # Ensure positive
@@ -140,7 +140,7 @@ class ExcelExporter:
         if not row.get('Category'):
             errors.append(f"Row {row_idx}: Missing Category (MANDATORY)")
         
-        if not row.get('Amount'):
+        if row.get('Amount') is None:
             errors.append(f"Row {row_idx}: Missing Amount")
         
         # Validate transaction type
@@ -151,7 +151,7 @@ class ExcelExporter:
         # Validate date format
         try:
             datetime.strptime(row['Date'], self.date_format)
-        except:
+        except ValueError:
             errors.append(f"Row {row_idx}: Invalid date format: {row.get('Date')}")
         
         return errors
